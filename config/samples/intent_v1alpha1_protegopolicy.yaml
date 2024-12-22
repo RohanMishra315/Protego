@@ -1,0 +1,9 @@
+apiVersion: intent.security.protego.com/v1alpha1
+kind: ProtegoPolicy
+metadata:
+  labels:
+    app.kubernetes.io/name: protego
+    app.kubernetes.io/managed-by: kustomize
+  name: protegopolicy-sample
+spec:
+  # TODO(user): Add fields here

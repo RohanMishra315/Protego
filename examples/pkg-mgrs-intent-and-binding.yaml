@@ -1,0 +1,31 @@
+apiVersion: intent.security.protego.com/v1alpha1
+kind: SecurityIntent
+metadata:
+  name: package-mgrs
+  annotations:
+    intent.protego.io/title: Package Manager Execution Prevention
+    # Severity should be a standard threat severity level (e.g., Low, Medium, High, Critical)
+    intent.protego.io/severity: Medium
+    # Description should clearly explain the intent and its security implications
+    intent.protego.io/description: |
+      This SecurityIntent aims to prevent adversaries from exploiting
+      third-party software suites (administration, monitoring, deployment tools)
+      within the network to achieve lateral movement. It enforces restrictions
+      on the execution of package managers.
+spec:
+  intent:
+    action: Enforce
+    id: pkgMgrs
+---
+apiVersion: intent.security.protego.com/v1alpha1
+kind: SecurityIntentBinding
+metadata:
+  name: package-mgrs-binding
+spec:
+  # Names of SecurityIntents to be applied
+  intents:
+    - name: package-mgrs # Reference the intended SecurityIntent resource
+  selector:
+    matchLabels:
+      env: prod
+      app: web

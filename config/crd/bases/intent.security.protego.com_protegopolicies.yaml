@@ -1,0 +1,90 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.16.4
+  name: protegopolicies.intent.security.protego.com
+spec:
+  group: intent.security.protego.com
+  names:
+    kind: ProtegoPolicy
+    listKind: ProtegoPolicyList
+    plural: protegopolicies
+    singular: protegopolicy
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: ProtegoPolicy is the Schema for the protegopolicies API.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ProtegoPolicySpec defines the desired state of ProtegoPolicy.
+            properties:
+              rules:
+                description: ProtegoRules is a list of rules that define the policy.
+                items:
+                  description: Rule defines a single rule within a ProtegoPolicySpec
+                  properties:
+                    action:
+                      description: RuleAction specifies the action to be taken when
+                        the rule matches.
+                      type: string
+                    id:
+                      description: ID is a unique identifier for the rule, used by
+                        security engine adapters.
+                      type: string
+                    params:
+                      additionalProperties:
+                        items:
+                          type: string
+                        type: array
+                      description: Params is an optional map of parameters associated
+                        with the rule.
+                      type: object
+                  required:
+                  - action
+                  - id
+                  type: object
+                type: array
+              selector:
+                description: Selector specifies the workload resources that the policy
+                  applies to.
+                properties:
+                  matchLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                required:
+                - matchLabels
+                type: object
+            required:
+            - rules
+            - selector
+            type: object
+          status:
+            description: ProtegoPolicyStatus defines the observed state of ProtegoPolicy.
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

@@ -1,0 +1,23 @@
+# permissions for end users to view protegopolicies.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: protego
+    app.kubernetes.io/managed-by: kustomize
+  name: protegopolicy-viewer-role
+rules:
+- apiGroups:
+  - intent.security.protego.com
+  resources:
+  - protegopolicies
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - intent.security.protego.com
+  resources:
+  - protegopolicies/status
+  verbs:
+  - get
